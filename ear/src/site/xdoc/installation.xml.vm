@@ -55,13 +55,17 @@
         </p>
 
         <dl>
-          <dt>password</dt>
+          <dt>user.list</dt>
           <dd>
-	    List of username and password pairs that this plugin
-	    authenticates.  This is a comma separated list of pairs,
-	    each separated by a colon.  The password may either be a
-	    clear text password or a cryptographic hash of a
-	    password.<br/>
+	    Space separated list of user names that this plugin
+	    authenticates.
+          </dd>
+
+          <dt>user.&lt;user&gt;.password</dt>
+          <dd>
+	    For each user given in user.list, this sets the password
+	    this user.  This may either be a clear text password or a
+	    cryptographic hash of a password.<br/>
 	    A password hash must start with a &quot;$&quot; character
 	    and be in the same form as found in the shadow(5) password
 	    file.  It may be created using the mkpasswd(1) utility on

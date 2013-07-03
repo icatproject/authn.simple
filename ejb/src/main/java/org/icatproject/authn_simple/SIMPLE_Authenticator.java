@@ -40,32 +40,34 @@ public class SIMPLE_Authenticator implements Authenticator {
 	    throw new IllegalStateException(msg);
 	}
 
-	// In principle, we could allow password to be optional.  In
-	// this case, we would not add any entries into passwordtable,
-	// so we would end up with a auth plugin that does not know
-	// any user and thus refuses all logins.  But then, it does
-	// not make sense to add the plugin to the ICAT in the first
-	// place.  Thus, such a configuration is almost certainly an
-	// error and that is why we require password to be set.
-	String pwlist = props.getProperty("password");
-	if (pwlist != null) {
-	    passwordtable = new HashMap<String, Passwd>();
-	    for ( String entry : pwlist.split( "," ) ) {
-		String[] fields = entry.split( ":" );
-		if ( fields.length == 2 ) {
-		    passwordtable.put(fields[0], new Passwd(fields[1]));
-		}
-		else {
-		    String msg = "Illegal entry " + entry + " in password property in " + f.getAbsolutePath();
-		    log.fatal(msg);
-		    throw new IllegalStateException(msg);
-		}
+	// Build the passwordtable out of user.list and user.<usern>.password
+	passwordtable = new HashMap<String, Passwd>();
+	String[] users;
+	String userlist = props.getProperty("user.list");
+	if (userlist != null) {
+	    users = userlist.trim().split("\\s+");
+	    String msg = "users configured [" + users.length + "]: ";
+	    for ( String u : users ) {
+		msg = msg + u + " ";
 	    }
+	    log.debug(msg);
 	}
 	else {
-	    String msg = "password not defined in " + f.getAbsolutePath();
+	    String msg = "user.list not defined in " + f.getAbsolutePath();
 	    log.fatal(msg);
 	    throw new IllegalStateException(msg);
+	}
+
+	for ( String user : users ) {
+	    String pass = props.getProperty("user." + user + ".password");
+	    if (pass != null) {
+		passwordtable.put(user, new Passwd(pass));
+	    }
+	    else {
+		String msg = "no passwd defined for user " + user + " in " + f.getAbsolutePath();
+		log.fatal(msg);
+		throw new IllegalStateException(msg);
+	    }
 	}
 
 	String authips = props.getProperty("ip");
