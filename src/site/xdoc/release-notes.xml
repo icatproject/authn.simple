@@ -8,13 +8,10 @@
     <body>
         <section name="1.0.0">
             <p>
-	      Add support for storing the passwords as cryptographic
+	      Initial release with support for storing the passwords as cryptographic
 	      hashes in the property file.  This depends on Apache
 	      Commons Codec.
 	    </p>
-        </section>
-        <section name="0.1.0">
-            <p>Initial release</p>
         </section>
     </body>
 </document>
