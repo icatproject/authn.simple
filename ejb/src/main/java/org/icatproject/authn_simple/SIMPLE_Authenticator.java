@@ -95,7 +95,7 @@ public class SIMPLE_Authenticator implements Authenticator {
 	if (addressChecker != null) {
 	    if (!addressChecker.check(remoteAddr)) {
 		throw new IcatException(IcatException.IcatExceptionType.SESSION,
-					"authn_db does not allow log in from your IP address " + remoteAddr);
+					"authn_simple does not allow log in from your IP address " + remoteAddr);
 	    }
 	}
 
