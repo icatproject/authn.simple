@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.icatproject.authentication.AddressChecker;
 import org.icatproject.authentication.Authentication;
 import org.icatproject.authentication.Authenticator;
+import org.icatproject.authentication.Passwd;
 import org.icatproject.core.IcatException;
 
 /* Mapped name is to avoid name clashes */
@@ -61,7 +62,7 @@ public class SIMPLE_Authenticator implements Authenticator {
 	for ( String user : users ) {
 	    String pass = props.getProperty("user." + user + ".password");
 	    if (pass != null) {
-		passwordtable.put(user, new Passwd(pass));
+		passwordtable.put(user, new Passwd(user, pass));
 	    }
 	    else {
 		String msg = "no passwd defined for user " + user + " in " + f.getAbsolutePath();
