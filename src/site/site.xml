@@ -2,22 +2,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
   <body>
-  
-    <breadcrumbs>
-      <item name="Authn SIMPLE" href="index.html"/>
-    </breadcrumbs>
-
-    <menu name="Information for Users">    
-      <item name="Issue Tracking" href="issue-tracking.html"/>
-      <item name="Release Notes" href="release-notes.html"/>
+    <menu name="Contents">
+      <item name="Authn SIMPLE Plugin Installation" href="installation.html"/>
     </menu>
-       
-    <menu name="Information for Installers">
-      <item name="Authn SIMPLE Plugin Installation" href="authn_simple.ear/installation.html"/>
-    </menu>
-    
     <menu ref="reports"/>
-    <menu ref="modules"/>
- 
+    <menu ref="parent"/>
   </body>
 </project>
