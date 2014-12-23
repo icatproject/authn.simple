@@ -6,12 +6,17 @@
     </properties>
 
     <body>
+        <section name="1.0.1">
+            <p>
+                Re-packaging as a simple .war file to support the normal "setup" script. The mnemonic in authn_simple.properties.example is now
+                "simple".
+            </p>
+        </section>
         <section name="1.0.0">
             <p>
-	      Initial release with support for storing the passwords as cryptographic
-	      hashes in the property file.  This depends on Apache
-	      Commons Codec.
-	    </p>
+                Initial release with support for storing the passwords as cryptographic hashes in the property file. This depends on Apache Commons
+                Codec.
+            </p>
         </section>
     </body>
 </document>
