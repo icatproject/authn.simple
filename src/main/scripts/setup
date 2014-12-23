@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+from setup_utils import *
+import os
+
+# authn_simple
+
+actions, options, arg = getActions()
+actions.getGlassfish("authn_simple-setup.properties", ["glassfish", "port"])
+
+prop_name = "authn_simple.properties"
+prop_list = ["user.list"]
+
+if arg in ["CONFIGURE", "INSTALL"]:
+    actions.configure(prop_name, prop_list)
+    actions.checkNoErrors()
+    
+if arg == "INSTALL":
+               
+    properties = actions.getProperties(prop_name, prop_list) 
+    for v in properties["user.list"].split():
+        if "user." + v + ".password" not in properties:
+            abort ("user.list included " + v + " but user." + v + ".password is not defined")       
+           
+    actions.installFile(prop_name)
+    
+    try:
+        
+        app = actions.getAppName("authn_simple.ear")
+        if app: actions.asadmin("undeploy " + app) 
+        app = actions.getAppName("authn_simple")
+        if app: actions.asadmin("undeploy " + app)
+        
+        actions.deploy("authn_simple-*.war", deploymentorder=80)
+                    
+    except Exception, e:
+        abort(str(e))
+               
+if arg == "UNINSTALL":
+    actions.removeFile(prop_name)
+    
+    try:
+        app = actions.getAppName("authn_simple.ear")
+        if app: actions.asadmin("undeploy " + app) 
+        app = actions.getAppName("authn_simple")
+        if app: actions.asadmin("undeploy " + app)
+    except Exception, e:
+        abort(str(e))       
