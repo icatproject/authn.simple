@@ -45,25 +45,30 @@ public class SIMPLE_Authenticator implements Authenticator {
 		passwordtable = new HashMap<String, String>();
 		String[] users;
 		String userlist = props.getProperty("user.list");
-		if (userlist != null) {
-			users = userlist.trim().split("\\s+");
-			String msg = "users configured [" + users.length + "]: ";
-			for (String u : users) {
-				msg = msg + u + " ";
-			}
-			log.debug(msg);
-		} else {
+
+		if (userlist == null) {
 			String msg = "user.list not defined in " + f.getAbsolutePath();
 			log.fatal(msg);
 			throw new IllegalStateException(msg);
+
 		}
+		if (userlist.trim().isEmpty()) {
+			users = new String[0];
+		} else {
+			users = userlist.trim().split("\\s+");
+		}
+		String msg = "users configured [" + users.length + "]: ";
+		for (String u : users) {
+			msg = msg + u + " ";
+		}
+		log.debug(msg);
 
 		for (String user : users) {
 			String pass = props.getProperty("user." + user + ".password");
 			if (pass != null) {
 				passwordtable.put(user, pass);
 			} else {
-				String msg = "no passwd defined for user " + user + " in " + f.getAbsolutePath();
+				msg = "no passwd defined for user " + user + " in " + f.getAbsolutePath();
 				log.fatal(msg);
 				throw new IllegalStateException(msg);
 			}
@@ -74,7 +79,7 @@ public class SIMPLE_Authenticator implements Authenticator {
 			try {
 				addressChecker = new AddressChecker(authips);
 			} catch (IcatException e) {
-				String msg = "Problem creating AddressChecker with information from "
+				msg = "Problem creating AddressChecker with information from "
 						+ f.getAbsolutePath() + "  " + e.getMessage();
 				log.fatal(msg);
 				throw new IllegalStateException(msg);
