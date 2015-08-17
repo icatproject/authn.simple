@@ -2,7 +2,7 @@
 from setup_utils import *
 import os
 
-# authn_simple
+# authn.simple
 
 actions, options, arg = getActions()
 actions.getGlassfish("authn_simple-setup.properties", ["glassfish", "port"])
@@ -29,9 +29,11 @@ if arg == "INSTALL":
         app = actions.getAppName("authn_simple.ear")
         if app: actions.undeploy(app) 
         app = actions.getAppName("authn_simple")
-        if app: actions.undeploy(app) 
+        if app: actions.undeploy(app)
+        app = actions.getAppName("authn.simple")
+        if app: actions.undeploy(app)  
         
-        actions.deploy("authn_simple-*.war", deploymentorder=80)
+        actions.deploy("authn.simple-*.war", deploymentorder=80)
         app = actions.getAppName("icat.server")
         if app: actions.restartApp(app)
                     
@@ -45,6 +47,8 @@ if arg == "UNINSTALL":
         app = actions.getAppName("authn_simple.ear")
         if app: actions.undeploy(app) 
         app = actions.getAppName("authn_simple")
-        if app: actions.undeploy(app) 
+        if app: actions.undeploy(app)
+        app = actions.getAppName("authn.simple")
+        if app: actions.undeploy(app)  
     except Exception, e:
         abort(str(e))       

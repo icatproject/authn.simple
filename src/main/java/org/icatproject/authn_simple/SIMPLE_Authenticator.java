@@ -1,5 +1,6 @@
 package org.icatproject.authn_simple;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
@@ -9,6 +10,8 @@ import java.util.Properties;
 import javax.annotation.PostConstruct;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.json.Json;
+import javax.json.stream.JsonGenerator;
 
 import org.apache.log4j.Logger;
 import org.icatproject.authentication.AddressChecker;
@@ -35,8 +38,7 @@ public class SIMPLE_Authenticator implements Authenticator {
 			props = new Properties();
 			props.load(new FileInputStream(f));
 		} catch (Exception e) {
-			String msg = "Unable to read property file " + f.getAbsolutePath() + "  "
-					+ e.getMessage();
+			String msg = "Unable to read property file " + f.getAbsolutePath() + "  " + e.getMessage();
 			log.fatal(msg);
 			throw new IllegalStateException(msg);
 		}
@@ -79,8 +81,8 @@ public class SIMPLE_Authenticator implements Authenticator {
 			try {
 				addressChecker = new AddressChecker(authips);
 			} catch (IcatException e) {
-				msg = "Problem creating AddressChecker with information from "
-						+ f.getAbsolutePath() + "  " + e.getMessage();
+				msg = "Problem creating AddressChecker with information from " + f.getAbsolutePath() + "  "
+						+ e.getMessage();
 				log.fatal(msg);
 				throw new IllegalStateException(msg);
 			}
@@ -93,8 +95,7 @@ public class SIMPLE_Authenticator implements Authenticator {
 	}
 
 	@Override
-	public Authentication authenticate(Map<String, String> credentials, String remoteAddr)
-			throws IcatException {
+	public Authentication authenticate(Map<String, String> credentials, String remoteAddr) throws IcatException {
 
 		if (addressChecker != null) {
 			if (!addressChecker.check(remoteAddr)) {
@@ -106,24 +107,32 @@ public class SIMPLE_Authenticator implements Authenticator {
 		String username = credentials.get("username");
 		log.trace("login:" + username);
 		if (username == null || username.equals("")) {
-			throw new IcatException(IcatException.IcatExceptionType.SESSION,
-					"Username cannot be null or empty.");
+			throw new IcatException(IcatException.IcatExceptionType.SESSION, "Username cannot be null or empty.");
 		}
 		String password = credentials.get("password");
 		if (password == null || password.isEmpty()) {
-			throw new IcatException(IcatException.IcatExceptionType.SESSION,
-					"Password cannot be null or empty.");
+			throw new IcatException(IcatException.IcatExceptionType.SESSION, "Password cannot be null or empty.");
 		}
 
 		String encodedPassword = passwordtable.get(username);
 		if (!PasswordChecker.verify(password, encodedPassword)) {
-			throw new IcatException(IcatException.IcatExceptionType.SESSION,
-					"The username and password do not match.");
+			throw new IcatException(IcatException.IcatExceptionType.SESSION, "The username and password do not match.");
 		}
 
 		log.info(username + " logged in succesfully");
 		return new Authentication(username, mechanism);
 
+	}
+
+	@Override
+	public String getDescription() {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		JsonGenerator gen = Json.createGenerator(baos);
+		gen.writeStartObject().writeStartArray("keys");
+		gen.writeStartObject().write("name", "username").writeEnd();
+		gen.writeStartObject().write("name", "password").write("hide", true).writeEnd();
+		gen.writeEnd().writeEnd().close();
+		return baos.toString();
 	}
 
 }

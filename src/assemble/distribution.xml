@@ -7,15 +7,15 @@
     <includeBaseDirectory>false</includeBaseDirectory>
     <fileSets>
         <fileSet>
-            <outputDirectory>authn_simple</outputDirectory>
+            <outputDirectory>authn.simple</outputDirectory>
             <directory>${basedir}/src/main/scripts</directory>
         </fileSet>
         <fileSet>
-            <outputDirectory>authn_simple</outputDirectory>
+            <outputDirectory>authn.simple</outputDirectory>
             <directory>${basedir}/src/main/config</directory>
         </fileSet>
         <fileSet>
-            <outputDirectory>authn_simple</outputDirectory>
+            <outputDirectory>authn.simple</outputDirectory>
             <directory>${basedir}</directory>
             <filtered>true</filtered>
             <includes>
@@ -27,15 +27,15 @@
 
     <dependencySets>
         <dependencySet>
-            <outputDirectory>authn_simple</outputDirectory>
+            <outputDirectory>authn.simple</outputDirectory>
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <includes>
-                <include>org.icatproject:authn_simple</include>
+                <include>org.icatproject:authn.simple</include>
             </includes>
         </dependencySet>
 
         <dependencySet>
-            <outputDirectory>authn_simple</outputDirectory>
+            <outputDirectory>authn.simple</outputDirectory>
             <useTransitiveDependencies>false</useTransitiveDependencies>
             <unpack>true</unpack>
             <unpackOptions>
