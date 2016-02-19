@@ -2,10 +2,8 @@ package org.icatproject.authn_simple;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Remote;
@@ -19,13 +17,15 @@ import org.icatproject.authentication.Authentication;
 import org.icatproject.authentication.Authenticator;
 import org.icatproject.authentication.PasswordChecker;
 import org.icatproject.core.IcatException;
+import org.icatproject.utils.CheckedProperties;
+import org.icatproject.utils.CheckedProperties.CheckedPropertyException;
 
 /* Mapped name is to avoid name clashes */
 @Stateless(mappedName = "org.icatproject.authn_simple.SIMPLE_Authenticator")
 @Remote
 public class SIMPLE_Authenticator implements Authenticator {
 
-	private static final Logger log = Logger.getLogger(SIMPLE_Authenticator.class);
+	private static final Logger logger = Logger.getLogger(SIMPLE_Authenticator.class);
 	private Map<String, String> passwordtable;
 	private org.icatproject.authentication.AddressChecker addressChecker;
 	private String mechanism;
@@ -33,65 +33,45 @@ public class SIMPLE_Authenticator implements Authenticator {
 	@PostConstruct
 	private void init() {
 		File f = new File("authn_simple.properties");
-		Properties props = null;
+		CheckedProperties props = new CheckedProperties();
 		try {
-			props = new Properties();
-			props.load(new FileInputStream(f));
-		} catch (Exception e) {
-			String msg = "Unable to read property file " + f.getAbsolutePath() + "  " + e.getMessage();
-			log.fatal(msg);
-			throw new IllegalStateException(msg);
-		}
+			props.loadFromFile("authn_simple.properties");
 
-		// Build the passwordtable out of user.list and user.<usern>.password
-		passwordtable = new HashMap<String, String>();
-		String[] users;
-		String userlist = props.getProperty("user.list");
+			// Build the passwordtable out of user.list and
+			// user.<usern>.password
+			passwordtable = new HashMap<String, String>();
+			String[] users = props.getString("user.list").split("\\s+");
 
-		if (userlist == null) {
-			String msg = "user.list not defined in " + f.getAbsolutePath();
-			log.fatal(msg);
-			throw new IllegalStateException(msg);
-
-		}
-		if (userlist.trim().isEmpty()) {
-			users = new String[0];
-		} else {
-			users = userlist.trim().split("\\s+");
-		}
-		String msg = "users configured [" + users.length + "]: ";
-		for (String u : users) {
-			msg = msg + u + " ";
-		}
-		log.debug(msg);
-
-		for (String user : users) {
-			String pass = props.getProperty("user." + user + ".password");
-			if (pass != null) {
-				passwordtable.put(user, pass);
-			} else {
-				msg = "no passwd defined for user " + user + " in " + f.getAbsolutePath();
-				log.fatal(msg);
-				throw new IllegalStateException(msg);
+			String msg = "users configured [" + users.length + "]: ";
+			for (String user : users) {
+				passwordtable.put(user, props.getString("user." + user + ".password"));
+				msg = msg + user + " ";
 			}
-		}
+			logger.debug(msg);
 
-		String authips = props.getProperty("ip");
-		if (authips != null) {
-			try {
-				addressChecker = new AddressChecker(authips);
-			} catch (IcatException e) {
-				msg = "Problem creating AddressChecker with information from " + f.getAbsolutePath() + "  "
-						+ e.getMessage();
-				log.fatal(msg);
-				throw new IllegalStateException(msg);
+			if (props.has("ip")) {
+				String authips = props.getString("ip");
+				try {
+					addressChecker = new AddressChecker(authips);
+				} catch (IcatException e) {
+					msg = "Problem creating AddressChecker with information from " + f.getAbsolutePath() + "  "
+							+ e.getMessage();
+					logger.fatal(msg);
+					throw new IllegalStateException(msg);
+				}
 			}
+
+			// Note that the mechanism is optional
+			if (props.has("mechanism")) {
+				mechanism = props.getString("mechanism");
+			}
+
+		} catch (CheckedPropertyException e) {
+			logger.fatal(e.getMessage());
+			throw new IllegalStateException(e.getMessage());
 		}
 
-		// Note that the mechanism is optional
-		mechanism = props.getProperty("mechanism");
-
-		log.debug("Initialised SIMPLE_Authenticator");
+		logger.debug("Initialised SIMPLE_Authenticator");
 	}
 
 	@Override
@@ -105,7 +85,7 @@ public class SIMPLE_Authenticator implements Authenticator {
 		}
 
 		String username = credentials.get("username");
-		log.trace("login:" + username);
+		logger.trace("login:" + username);
 		if (username == null || username.equals("")) {
 			throw new IcatException(IcatException.IcatExceptionType.SESSION, "Username cannot be null or empty.");
 		}
@@ -119,7 +99,7 @@ public class SIMPLE_Authenticator implements Authenticator {
 			throw new IcatException(IcatException.IcatExceptionType.SESSION, "The username and password do not match.");
 		}
 
-		log.info(username + " logged in succesfully");
+		logger.debug(username + " logged in succesfully");
 		return new Authentication(username, mechanism);
 
 	}
