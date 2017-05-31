@@ -16,6 +16,11 @@ actions, arg, props = getActions("authn_simple-setup.properties", [])
 prop_name = "authn_simple.properties"
 prop_list = ["user.list"]
 
+home = props["home"]
+if props["container"] != "Glassfish": abort("Only Glassfish/Payara supported at present")
+config = os.path.join(home, "glassfish", "domains", "domain1", "config")
+if not os.path.exists(config): abort ("Config directory " + config + " not found - please hack the line above for your domain") 
+
 if arg in ["CONFIGURE", "INSTALL"]:
     actions.configure(prop_name, prop_list)
     actions.checkNoErrors()
@@ -26,7 +31,7 @@ if arg == "INSTALL":
         if "user." + v + ".password" not in properties:
             abort ("user.list included " + v + " but user." + v + ".password is not defined")       
            
-    actions.installFile(prop_name)
+    actions.installFile(prop_name, config)
     
     try:
         undeploy()
@@ -37,7 +42,7 @@ if arg == "INSTALL":
         abort(str(e))
                
 if arg == "UNINSTALL":
-    actions.removeFile(prop_name)
+    actions.removeFile(prop_name, config)
     try:
         undeploy() 
     except Exception, e:
