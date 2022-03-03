@@ -1,6 +1,7 @@
 # authn_simple
 
-[![Build Status](https://travis-ci.org/icatproject/authn.simple.svg?branch=master)](https://travis-ci.org/icatproject/authn.simple)
+[![Build Status](https://github.com/icatproject/authn.simple/workflows/CI%20Build/badge.svg?branch=master)](https://github.com/icatproject/authn.simple/actions?query=workflow%3A%22CI+Build%22
+)
 
 General installation instructions are at http://www.icatproject.org/installation/component
 
