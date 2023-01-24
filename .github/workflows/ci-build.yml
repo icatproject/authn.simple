@@ -28,7 +28,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Checkout authn-simple
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Run Build
         run: mvn install -Dmaven.install.skip -DskipTests
