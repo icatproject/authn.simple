@@ -8,10 +8,10 @@ on:
 
 jobs:
   build_and_tests:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
-        java: [ '8', '11' ]
+        java: [ '11', '17' ]
     steps:
       - name: Setup Java
         uses: actions/setup-java@3f07048e3d294f56e9b90ac5ea2c6f74e9ad0f98 # v3.10.0
