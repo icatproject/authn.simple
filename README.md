@@ -66,7 +66,7 @@ For example, to build a native docker image:
 
 ```shell script
 # from the root folder
-docker build -f src/main/docker/Dockerfile.native -t quarkus/qarkus_auth .
+docker build -f src/main/docker/Dockerfile.native -t quarkus/qarkus_auth
 ```
 
 Then the image can be run:
