@@ -21,8 +21,6 @@ You can run this application locally in dev mode that enables live coding using:
 | `/description`  | `curl http://localhost:8080/authn.simple/description `       | `{"keys":[{"name":"username"},{"name":"password","hide":true}]}` |
 | `/authenticate` | `curl -d json='{"credentials":[{"username":"dummy"},{"password":"dummy"}]}' http://localhost:8080/authn.simple/authenticate` | `{"username":"dummy","mechanism":"simple"}`                  |
 
-
-
 ## Packaging and running the application
 
 The application can be packaged using:
@@ -34,7 +32,7 @@ The application can be packaged using:
 It produces the `.jar` file in the `target/` directory.
 Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
 
-The application can be packaged using:
+The application can be run using:
 
 ```shell script
 java -jar target/quarkus-app/quarkus-run.jar
@@ -50,7 +48,7 @@ The application, packaged as an _über-jar_, is now runnable using `java -jar ta
 
 ## Creating a native executable
 
-You can create a native executable using docker by:
+You can create a [native](https://quarkus.io/guides/building-native-image#producing-a-native-executable) executable using docker by:
 
 ```shell script
 ./mvnw package -Dnative -Dquarkus.native.container-build=true
@@ -64,9 +62,10 @@ Once these packages have been built, they can be copied into a container and run
 
 Various dockerfiles exist in the `src/main/docker` folder for this.
 
-for example, build the image from the root folder:
+For example, to build a native docker image:
 
 ```shell script
+# from the root folder
 docker build -f src/main/docker/Dockerfile.native -t quarkus/qarkus_auth .
 ```
 
