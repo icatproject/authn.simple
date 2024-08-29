@@ -40,20 +40,20 @@ public class SIMPLE_Authenticator {
 
     private static final Logger logger = Logger.getLogger(SIMPLE_Authenticator.class);
 
-    private Map<String, String> passwordtable;
-    private AddressChecker addressChecker;
+    Map<String, String> passwordtable;
+    AddressChecker addressChecker;
 
     @Inject
     @ConfigProperty(name="user.list")
-    private List<String> users;
+    List<String> users;
 
     @Inject
     @ConfigProperty(name="mechanism", defaultValue="simple")
-    private String mechanism;
+    String mechanism;
 
     @Inject
     @ConfigProperty(name="ip")
-    private Optional<String> ipProperty;
+    Optional<String> ipProperty;
 
     @Inject
     @ConfigProperty(name = "quarkus.application.version")
