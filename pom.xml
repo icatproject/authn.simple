@@ -1,12 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.icatproject</groupId>
     <artifactId>authn.simple</artifactId>
     <version>4.0.0</version>
 
-    <description>
-        This is the SIMPLE Authentication plugin for ICAT.  It uses no
+    <description>This is the SIMPLE Authentication plugin for ICAT.  It uses no
         external backend to store the credentials or to verify them.
         Instead the credentials are statically configured in the
         properties file.  This is mostly useful if you need a separate
@@ -15,8 +14,7 @@
         against some external source, such as LDAP, but this source does
         not provide an entry for your ICAT root account.  In this
         situation you might want to use authn_simple to add the root
-        account to your ICAT.
-    </description>
+        account to your ICAT.</description>
 
     <properties>
         <compiler-plugin.version>3.13.0</compiler-plugin.version>
@@ -108,6 +106,10 @@
             <version>3.1</version>
         </dependency>
         <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy-jsonb</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <scope>test</scope>
@@ -122,13 +124,13 @@
             <artifactId>icat.utils</artifactId>
             <version>4.16.1</version>
         </dependency>
+        <!-- Testing Dependencies -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>7.10.2</version>
             <scope>test</scope>
         </dependency>
-        <!-- Testing Dependencies -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5</artifactId>
