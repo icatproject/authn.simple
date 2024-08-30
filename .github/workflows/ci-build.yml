@@ -16,12 +16,6 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
       - name: Cache Maven packages
         uses: actions/cache@v3
         with:
@@ -29,22 +23,8 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven-
 
-      - name: Build native executable with Maven
-        run: mvn clean package -Dnative -Dquarkus.native.container-build=true
+      - name: Build native executable and run tests
+        run: ./mvnw package -Dnative -Dquarkus.native.container-build=true
 
       - name: Build Docker image
         run: docker build -f src/main/docker/Dockerfile.native -t quarkus-app .
-
-      - name: Run Docker container
-        run: docker run -d --name quarkus_app -p 8080:8080 quarkus-app
-
-      - name: Run tests against the running Docker container
-        run: |
-          sleep 10  # Give the container time to start up
-          mvn test -Dtest=*TestAuthenticate,*TestGetDescription,*TestGetVersion -Dquarkus.http.test-port=8080
-
-      - name: Stop Docker container
-        run: docker stop quarkus_app
-
-      - name: Remove Docker container
-        run: docker rm quarkus_app
