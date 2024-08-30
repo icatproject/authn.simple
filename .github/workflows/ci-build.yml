@@ -9,9 +9,8 @@ on:
       - quarkus_auth_simple
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
@@ -25,5 +24,17 @@ jobs:
       - name: Build native executable and run tests
         run: ./mvnw package -Dnative -Dquarkus.native.container-build=true
 
-      - name: Build Docker image
-        run: docker build -f src/main/docker/Dockerfile.native -t quarkus-app .
+      - name: Login to Harbor
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.HARBOR_URL }}
+          username: ${{ secrets.HARBOR_USERNAME }}
+          password: ${{ secrets.HARBOR_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          context: .
+          file: src/main/docker/Dockerfile.native
+          tags: ${{ secrets.HARBOR_URL }}/api:${{ github.ref_name }}
