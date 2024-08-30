@@ -16,12 +16,11 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Cache Maven packages
-        uses: actions/cache@v3
+      - name: Set up Java
+        uses: actions/setup-java@v3
         with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven-
+          distribution: 'temurin'
+          java-version: '22'
 
       - name: Build native executable and run tests
         run: ./mvnw package -Dnative -Dquarkus.native.container-build=true
