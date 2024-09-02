@@ -44,15 +44,15 @@ public class SIMPLE_Authenticator {
     AddressChecker addressChecker;
 
     @Inject
-    @ConfigProperty(name="user.list")
+    @ConfigProperty(name = "user.list")
     List<String> users;
 
     @Inject
-    @ConfigProperty(name="mechanism", defaultValue="simple")
+    @ConfigProperty(name = "mechanism", defaultValue = "simple")
     String mechanism;
 
     @Inject
-    @ConfigProperty(name="ip")
+    @ConfigProperty(name = "ip")
     Optional<String> ipProperty;
 
     @Inject
@@ -62,7 +62,7 @@ public class SIMPLE_Authenticator {
     @PostConstruct
     private void init() {
 
-        passwordtable = new HashMap<String, String>();
+        passwordtable = new HashMap<>();
         // Populate the password table using the injected users list
         for (String user : users) {
             String password = ConfigProvider.getConfig().getValue("user." + user + ".password", String.class);
@@ -106,6 +106,7 @@ public class SIMPLE_Authenticator {
         String username = null;
         String password = null;
         String ip = null;
+
         try (JsonReader r = Json.createReader(s)) {
             JsonObject o = r.readObject();
             for (JsonValue c : o.getJsonArray("credentials")) {
@@ -119,7 +120,6 @@ public class SIMPLE_Authenticator {
             if (o.containsKey("ip")) {
                 ip = o.getString("ip");
             }
-
         }
 
         logger.debug("Login request by: " + username);
@@ -158,7 +158,6 @@ public class SIMPLE_Authenticator {
             gen.writeEnd();
         }
         return baos.toString();
-
     }
 
     @GET
@@ -175,5 +174,4 @@ public class SIMPLE_Authenticator {
         }
         return baos.toString();
     }
-
 }
