@@ -37,4 +37,5 @@ jobs:
           push: true
           context: .
           file: src/main/docker/Dockerfile.native
+          platforms: linux/amd64,linux/arm64,linux/386
           tags: ${{ secrets.HARBOR_URL }}/authn_simple:${{ github.ref_name }}
