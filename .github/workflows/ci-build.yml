@@ -21,8 +21,14 @@ jobs:
           distribution: 'temurin'
           java-version: '22'
 
-      - name: Build native executable and run tests
-        run: ./mvnw package -Dnative -Dquarkus.native.container-build=true
+      - name: Build native executable for amd64
+        run: |
+          ./mvnw package -Dquarkus.native.container-build=true -Dquarkus.native.additional-build-args="--target-platform=linux-amd64"
+
+      - name: Build native executable for arm64
+        run: |
+          ./mvnw package -Dquarkus.native.container-build=true -Dquarkus.native.additional-build-args="--target-platform=linux-arm64"
+
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
