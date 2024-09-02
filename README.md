@@ -62,7 +62,7 @@ Once these packages have been built, they can be copied into a container and run
 
 Various dockerfiles exist in the `src/main/docker` folder for this.
 
-For example, to build a native docker image:
+For example, to build a native docker image locally:
 
 ```shell script
 # from the root folder
@@ -75,10 +75,10 @@ Then the image can be run:
 docker run -i --rm -p 8080:8080 quarkus/qarkus_auth
 ```
 
-Once the CI has built the image, it will be available at:
+Once the CI has built the image, it can be run by:
 
 ```shell script
-docker pull harbor.stfc.ac.uk/icat/authn_simple:<git branch name>
+docker run -p 8080:8080 harbor.stfc.ac.uk/icat/authn_simple:<git branch name>
 ```
 
 
