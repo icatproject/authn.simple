@@ -75,6 +75,11 @@ Then the image can be run:
 docker run -i --rm -p 8080:8080 quarkus/qarkus_auth
 ```
 
+Once the CI has built the image, it will be available at:
+
+```shell script
+docker pull harbor.stfc.ac.uk/icat/authn_simple:<git branch name>
+```
 
 
 
