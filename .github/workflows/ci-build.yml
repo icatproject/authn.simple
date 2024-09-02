@@ -25,6 +25,8 @@ jobs:
         run: |
           ./mvnw package -Dquarkus.native.container-build=true -Dquarkus.native.additional-build-args="--target-platform=linux-arm64"
 
+      - name: Verify target directory contents
+        run: ls -al target
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
