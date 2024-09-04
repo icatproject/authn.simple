@@ -15,11 +15,11 @@ You can run this application locally in dev mode that enables live coding using:
 
 ## List of endpoints 
 
-| Location        | Example                                                      | Results                                                      |
-| --------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `/version`      | `curl http://localhost:8080/authn.simple/version`            | `{"version":"4.0.0"}`                                        |
-| `/description`  | `curl http://localhost:8080/authn.simple/description `       | `{"keys":[{"name":"username"},{"name":"password","hide":true}]}` |
-| `/authenticate` | `curl -d json='{"credentials":[{"username":"dummy"},{"password":"dummy"}]}' http://localhost:8080/authn.simple/authenticate` | `{"username":"dummy","mechanism":"simple"}`                  |
+| Location        | Example                                                                                                                                          | Results                                                      |
+| --------------- |--------------------------------------------------------------------------------------------------------------------------------------------------| ------------------------------------------------------------ |
+| `/version`      | `curl http://localhost:8080/authn.simple/version`                                                                                                | `{"version":"4.0.0"}`                                        |
+| `/description`  | `curl http://localhost:8080/authn.simple/description `                                                                                           | `{"keys":[{"name":"username"},{"name":"password","hide":true}]}` |
+| `/authenticate` | `curl -d json='{"credentials":[{"username":"validUserName"},{"password":"validUserPassword"}]}' http://localhost:8080/authn.simple/authenticate` | `{"username":"dummy","mechanism":"simple"}`                  |
 
 ## Packaging and running the application
 
