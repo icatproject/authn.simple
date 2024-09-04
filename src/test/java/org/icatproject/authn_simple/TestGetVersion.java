@@ -1,11 +1,11 @@
 package org.icatproject.authn_simple;
 
-import static org.junit.Assert.assertEquals;
-
+import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -13,19 +13,24 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 
-public class TestGetVersion{
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@QuarkusTest
+public class TestGetVersion {
+
+    @Inject
+    SIMPLE_Authenticator authn;
+
     @Test
     public void testVersion() throws Exception {
-        // get the version from the pom file
+        // Get the version from the pom file
         String expectedVersion = getVersionFromPom();
 
-        SIMPLE_Authenticator authenticator = new SIMPLE_Authenticator();
-
-        // Manually set the projectVersion field to simulate injection
-        authenticator.projectVersion = expectedVersion;
+        // Set the projectVersion field to simulate injection (if needed)
+        authn.projectVersion = expectedVersion;
 
         // Call the getVersion method
-        String versionResponse = authenticator.getVersion();
+        String versionResponse = authn.getVersion();
 
         // Parse the JSON response
         JsonObject versionJson;

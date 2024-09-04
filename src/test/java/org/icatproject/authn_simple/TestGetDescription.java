@@ -1,14 +1,21 @@
 package org.icatproject.authn_simple;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
+import org.junit.jupiter.api.Test;
 
+@QuarkusTest
 public class TestGetDescription {
-	@Test
-	public void testDescription() {
-		SIMPLE_Authenticator authenticator = new SIMPLE_Authenticator();
-		assertEquals("{\"keys\":[{\"name\":\"username\"},{\"name\":\"password\",\"hide\":true}]}", authenticator.getDescription());
 
+	@Inject
+	SIMPLE_Authenticator authn;
+
+	@Test
+	public void getDescription() {
+		assertEquals("{\"keys\":[{\"name\":\"username\"},{\"name\":\"password\",\"hide\":true}]}",
+				authn.getDescription());
 	}
+
 }
