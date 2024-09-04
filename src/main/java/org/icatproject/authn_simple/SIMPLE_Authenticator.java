@@ -34,7 +34,7 @@ import org.icatproject.utils.AddressCheckerException;
 import org.jboss.logging.Logger;
 
 /* Mapped name is to avoid name clashes */
-@Path("/authn.simple")
+@Path("/")
 @ApplicationScoped
 public class SIMPLE_Authenticator {
 
@@ -134,6 +134,10 @@ public class SIMPLE_Authenticator {
 
         if (addressChecker != null) {
             try {
+                if (ip==null) {
+                    throw new AuthnException(HttpURLConnection.HTTP_BAD_REQUEST,
+                            "An Ip address must be provided");
+                }
                 if (!addressChecker.check(ip)) {
                     throw new AuthnException(HttpURLConnection.HTTP_FORBIDDEN,
                             "authn.simple does not allow log in from your IP address " + ip);
