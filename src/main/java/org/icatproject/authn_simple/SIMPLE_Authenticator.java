@@ -34,7 +34,7 @@ import org.icatproject.utils.AddressCheckerException;
 import org.jboss.logging.Logger;
 
 /* Mapped name is to avoid name clashes */
-@Path("/")
+@Path("/authn.simple")
 @ApplicationScoped
 public class SIMPLE_Authenticator {
 
