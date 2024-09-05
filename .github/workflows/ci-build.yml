@@ -21,8 +21,14 @@ jobs:
           distribution: 'temurin'
           java-version: '22'
 
+      - name: Build project and run unit tests
+        run: ./mvnw clean package -DskipTests
+
+      - name: Run integration tests
+        run: ./mvnw failsafe:integration-test
+
       - name: Build native executable and run tests
-        run: ./mvnw package -Dnative -Dquarkus.native.container-build=true
+        run: ./mvnw package -DskipTests -Dnative -Dquarkus.native.container-build=true
 
       - name: Login to Harbor
         uses: docker/login-action@v3

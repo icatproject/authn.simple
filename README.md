@@ -26,11 +26,19 @@ You can run this application locally in dev mode that enables live coding using:
 The application can be packaged using:
 
 ```shell script
-./mvnw package
+./mvnw clean package -DskipTests
 ```
 
 It produces the `.jar` file in the `target/` directory.
 Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+
+## Testing
+
+The application uses integration tests to fully verify the api endpoints. The package needs to be built above first.
+
+```shell script
+./mvnw failsafe:integration-test
+```
 
 The application can be run using:
 
@@ -41,20 +49,10 @@ java -jar target/quarkus-app/quarkus-run.jar
 If you want to build an [_über-jar_](https://blog.payara.fish/what-is-a-java-uber-jar), execute the following command:
 
 ```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+./mvnw package -DskipTests -Dquarkus.package.jar.type=uber-jar
 ```
 
 The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a [native](https://quarkus.io/guides/building-native-image#producing-a-native-executable) executable using docker by:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute the native executable with: `./target/*-runner`
 
 ## Docker :whale:
 
