@@ -34,9 +34,9 @@ public class AuthenticateIT {
 				.header("Content-Type", "application/x-www-form-urlencoded")  // Set Content-Type for form-urlencoded
 				.formParam("json", jsonString)  // Send the JSON string as a form parameter with the key 'json'
 				.when()
-				.post("/authn.simple/authenticate")  // Ensure the path is correct
+				.post("/authn.simple/authenticate")
 				.then()
-				.statusCode(Response.Status.FORBIDDEN.getStatusCode())  // Expect 403 Forbidden
+				.statusCode(Response.Status.FORBIDDEN.getStatusCode())
 				.body("message", equalTo("The username and password do not match "));
 	}
 	@Test
@@ -45,12 +45,12 @@ public class AuthenticateIT {
 
 		// Perform an HTTP POST with invalid password, sending the JSON as a form parameter
 		given()
-				.header("Content-Type", "application/x-www-form-urlencoded")  // Set Content-Type for form-urlencoded
-				.formParam("json", jsonString)  // Send the JSON string as a form parameter with the key 'json'
+				.header("Content-Type", "application/x-www-form-urlencoded")
+				.formParam("json", jsonString)
 				.when()
-				.post("/authn.simple/authenticate")  // Ensure the path is correct
+				.post("/authn.simple/authenticate")
 				.then()
-				.statusCode(Response.Status.FORBIDDEN.getStatusCode())  // Expect 403 Forbidden
+				.statusCode(Response.Status.FORBIDDEN.getStatusCode())
 				.body("message", equalTo("The username and password do not match "));
 	}
 }

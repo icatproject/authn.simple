@@ -23,7 +23,7 @@ public class IPTestsIT {
 				.when()
 				.post("/authn.simple/authenticate")
 				.then()
-				.statusCode(Response.Status.BAD_REQUEST.getStatusCode())  // Expect 400 Bad Request
+				.statusCode(Response.Status.BAD_REQUEST.getStatusCode())
 				.body("message", equalTo("An Ip address must be provided"));
 	}
 
@@ -33,12 +33,12 @@ public class IPTestsIT {
 
 		// Perform an HTTP POST request with a bad IP address
 		given()
-				.header("Content-Type", "application/x-www-form-urlencoded")  // Set Content-Type for form-urlencoded
-				.formParam("json", jsonString)  // Send the JSON string as a form parameter with the key 'json'
+				.header("Content-Type", "application/x-www-form-urlencoded")
+				.formParam("json", jsonString)
 				.when()
 				.post("/authn.simple/authenticate")
 				.then()
-				.statusCode(Response.Status.FORBIDDEN.getStatusCode())  // Expect 403 Forbidden
+				.statusCode(Response.Status.FORBIDDEN.getStatusCode())
 				.body("message", equalTo("authn.simple does not allow log in from your IP address 192.167.0.125"));
 	}
 
@@ -48,14 +48,14 @@ public class IPTestsIT {
 
 		// Perform an HTTP POST request with a valid IP address
 		given()
-				.header("Content-Type", "application/x-www-form-urlencoded")  // Set Content-Type for form-urlencoded
-				.formParam("json", jsonString)  // Send the JSON string as a form parameter with the key 'json'
+				.header("Content-Type", "application/x-www-form-urlencoded")
+				.formParam("json", jsonString)
 				.when()
 				.post("/authn.simple/authenticate")
 				.then()
-				.statusCode(Response.Status.OK.getStatusCode())  // Expect 200 OK
+				.statusCode(Response.Status.OK.getStatusCode())
 				.body("username", equalTo("dummy"))
-				.body("mechanism", equalTo("simple"));  // Adjust this based on your actual mechanism
+				.body("mechanism", equalTo("simple"));
 	}
 
 }
