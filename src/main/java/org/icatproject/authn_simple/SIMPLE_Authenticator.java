@@ -53,7 +53,7 @@ public class SIMPLE_Authenticator {
 
     @Inject
     @ConfigProperty(name = "ip")
-    Optional<String> ipProperty;
+    Optional<String> ipAddresses;
 
     @Inject
     @ConfigProperty(name = "quarkus.application.version")
@@ -73,7 +73,7 @@ public class SIMPLE_Authenticator {
         logger.debug(msg);
 
         // Initialize the AddressChecker if the IP property is present
-        ipProperty.ifPresent(ip -> {
+        ipAddresses.ifPresent(ip -> {
             try {
                 addressChecker = new AddressChecker(ip);
             } catch (Exception e) {
