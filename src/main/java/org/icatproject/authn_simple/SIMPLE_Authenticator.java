@@ -152,7 +152,7 @@ public class SIMPLE_Authenticator {
             throw new AuthnException(HttpURLConnection.HTTP_FORBIDDEN, "The username and password do not match ");
         }
 
-        logger.info(username + " logged in succesfully" + (mechanism != null ? " by " + mechanism : ""));
+        logger.info(username + " logged in successfully" + (mechanism != null ? " by " + mechanism : ""));
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (JsonGenerator gen = Json.createGenerator(baos)) {
             gen.writeStartObject().write("username", username);
