@@ -75,8 +75,9 @@
 
 		<dt>user.&lt;user&gt;.password</dt>
 		<dd>
-			For each user given in user.list, this sets the password this user. This
-			may either be a clear-text password or a cryptographic hash of a password.
+			For each user given in user.list, this sets the password for that user.
+			This may either be a clear-text password or a cryptographic hash of a
+			password.
 			<br />
 			A password hash must start with a &quot;$&quot; character and be in Modular
 			Crypt Format. The supported hash algorithms are MD5, SHA-256, and SHA-512.
