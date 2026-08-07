@@ -75,15 +75,21 @@
 
 		<dt>user.&lt;user&gt;.password</dt>
 		<dd>
-			For each user given in user.list, this sets the password this user.
-			This may either be a clear text password or a cryptographic hash of a
-			password. <br /> A password hash must start with a &quot;$&quot;
-			character and be in the same form as found in the shadow(5) password
-			file. It may be created using the mkpasswd(1) utility on Debian
-			systems or grub-crypt on Red Hat derived systems or the python crypt
-			module. The supported hash algorithms are MD5, SHA-256, and SHA-512.
-			<br /> A clear text password must not start with a &quot;$&quot;
-			character.
+			For each user given in user.list, this sets the password this user. This
+			may either be a clear-text password or a cryptographic hash of a password.
+			<br />
+			A password hash must start with a &quot;$&quot; character and be in Modular
+			Crypt Format. The supported hash algorithms are MD5, SHA-256, and SHA-512.
+			Do not use MD5 because it is insecure.
+			<br />
+			Use the following command to create a SHA-256 hash:
+			<code>openssl passwd -5</code>
+			<br />
+			The mkpasswd(1) utility can also be used. It is provided by the whois
+			package on Debian-based systems:
+			<code>mkpasswd --method=SHA-256</code>
+			<br />
+			A clear text password must not start with a &quot;$&quot; character.
 		</dd>
 		<dt>ip</dt>
 		<dd>If access to the SIMPLE authentication should only be allowed

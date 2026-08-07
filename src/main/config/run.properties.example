@@ -8,13 +8,18 @@ user.list =
 # Password for each user.  This may either be a clear text password or
 # a cryptographic hash of a password.
 #
-# A password hash must start with a '$' character and be in the same
-# form as found in the shadow(5) password file.  It may be created
-# using the mkpasswd(1) utility on Debian systems or grub-crypt on 
-# Red Hat derived systems or the python crypt module.  The supported hash
-# algorithms are MD5, SHA-256, and SHA-512.
+# A password hash must start with a '$' character and be in Modular Crypt
+# Format.  The supported hash algorithms are MD5, SHA-256, and SHA-512.  Do
+# not use MD5 because it is insecure.
 #
-# A clear text password must not start with a '$' character.
+# Use the following command to create a SHA-256 hash:
+#     openssl passwd -5
+#
+# The mkpasswd(1) utility can also be used.  It is provided by the whois
+# package on Debian-based systems:
+#     mkpasswd --method=SHA-256
+#
+# A clear-text password must not start with a '$' character.
 !user.usera.password =  passworda
 !user.userb.password =  $1$kK4p1s9W$pLp9/FS.HI6RF3sINY3X20
 !user.userc.password =  $5$rOcFOsg2dEk5$fB15Q6sbW0TAAlngkHmciuep59G.EcDng81nawJ.9f1
